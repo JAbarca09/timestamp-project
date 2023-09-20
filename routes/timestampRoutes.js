@@ -3,6 +3,6 @@ const timestampController = require('../controllers/timestampController');
 
 const router = express.Router();
 
-// router.post('/api/timestamp/:date?')
+router.post('/:date?', timestampController.getTimeStamp);
 
-// module.exports router;
+module.exports = router;
