@@ -18,6 +18,7 @@ An empty date parameter should return the current time in a JSON object with a u
 var express = require('express');
 const morgan = require('morgan');
 var app = express();
+const timestampController = require('./routes/timestampRoutes');
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC 
@@ -40,6 +41,7 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+app.use('/api/timestamp', timestampController);
 
 // listen for requests :)
 var listener = app.listen(3000, function () {
