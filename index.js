@@ -16,12 +16,15 @@ An empty date parameter should return the current time in a JSON object with a u
 
 // init project
 var express = require('express');
+const morgan = require('morgan');
 var app = express();
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC 
 var cors = require('cors');
 app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 204
+
+app.use(morgan('dev'));
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
@@ -36,7 +39,6 @@ app.get("/", function (req, res) {
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
-
 
 
 // listen for requests :)
