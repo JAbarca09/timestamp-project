@@ -12,14 +12,24 @@ If empty then send the current time with a unix key
 
 exports.getTimeStamp = (req, res) => {
   let date = req.params.date;
-  console.log(date)
-  
-  // handle an empty input
-  if(date === undefined || date.length < 1) {
+
+  if (date === undefined || date.length < 1) {
     let currentDate = new Date();
     let utcFormat = currentDate.toUTCString();
-    return res.json({unix: currentDate.getTime(), utc: utcFormat});
+    
+    return res.json({ unix: currentDate.getTime(), utc: utcFormat });
   } else {
+    // Check if the provided date is a valid in YYYY-MM-DD format
+    let regex = /^\d{4}-\d{2}-\d{2}$/;
+    if (regex.test(date)) {
+      let parsedDate = new Date(date);
+      if (!isNaN(parsedDate.getTime())) {
+        let utcFormat = parsedDate.toUTCString();
+        return res.json({ unix: parsedDate.getTime(), utc: utcFormat });
+      }
+    }
 
+    return res.json({ error: "Invalid Date" });
   }
 };
+
