@@ -16,7 +16,7 @@ exports.getTimeStamp = (req, res) => {
   if (date === undefined || date.length < 1) {
     let currentDate = new Date();
     let utcFormat = currentDate.toUTCString();
-    
+
     return res.json({ unix: currentDate.getTime(), utc: utcFormat });
   } else {
     // Check if the provided date is a valid in YYYY-MM-DD format
@@ -29,7 +29,16 @@ exports.getTimeStamp = (req, res) => {
       }
     }
 
+    // Check if the provided date is a valid UNIX timestamp
+    let timestamp = parseInt(date);
+    if (!isNaN(timestamp)) {
+      let parsedDate = new Date(timestamp);
+      if (!isNaN(parsedDate.getTime())) {
+        let utcFormat = parsedDate.toUTCString();
+        return res.json({ unix: parsedDate.getTime(), utc: utcFormat });
+      }
+    }
+
     return res.json({ error: "Invalid Date" });
   }
 };
-
